@@ -20,6 +20,8 @@ export const persistRootReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistRootReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store);

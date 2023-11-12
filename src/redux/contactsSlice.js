@@ -7,14 +7,6 @@ const contactsSlice = createSlice({
   reducers: {
     addContact: {
       reducer(state, action) {
-        if (state.some(con => con.name === action.payload.name)) {
-          alert('Contact with this name already exist');
-          return;
-        }
-        if (state.some(con => con.phone === action.payload.phone)) {
-          alert('Contact with this phone already exist');
-          return;
-        }
         state.push(action.payload);
       },
       prepare({ name, phone }) {
@@ -28,8 +20,8 @@ const contactsSlice = createSlice({
       },
     },
     deleteContact(state, action) {
-      state = state.filter(({ id }) => id !== action.payload);
-      return state;
+      const index = state.findIndex(con => con.id === action.payload);
+      state.splice(index, 1);
     },
   },
 });

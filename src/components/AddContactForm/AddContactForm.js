@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Label } from './AddContactForm.styled';
 import * as Yup from 'yup';
 import 'yup-phone';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
 
 const Schema = Yup.object().shape({
@@ -21,6 +21,7 @@ const Schema = Yup.object().shape({
 
 export function AddContactForm() {
   const dispatch = useDispatch();
+  const contacts = useSelector(store => store.contacts);
 
   return (
     <Formik
@@ -30,6 +31,14 @@ export function AddContactForm() {
       }}
       validationSchema={Schema}
       onSubmit={(values, action) => {
+        if (contacts.some(con => con.name === values.name)) {
+          alert('Contact with this name already exist');
+          return;
+        }
+        if (contacts.some(con => con.phone === values.phone)) {
+          alert('Contact with this phone already exist');
+          return;
+        }
         dispatch(addContact(values));
         action.resetForm();
       }}

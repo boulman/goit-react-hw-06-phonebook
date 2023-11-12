@@ -14,7 +14,9 @@ export function Filter() {
           type="text"
           name="search"
           placeholder="Enter search"
-          onChange={e => dispatch(changeFilter(e.target.value))}
+          onChange={e =>
+            dispatch(changeFilter(e.target.value.trim().toLowerCase()))
+          }
         />
       </Label>
     )
